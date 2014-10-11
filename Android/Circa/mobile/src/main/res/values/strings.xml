@@ -10,6 +10,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">Circa</string>
 
+    <string name="evernote_login">Use Evernote</string>
+    <string name="evernote_description">Send your alerts to your Evernote</string>
+
     <string name="NOTIFICATION_ID">notification_id</string>
     <string name="NOTIFICATION_GROUP">notification_group</string>
 

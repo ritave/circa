@@ -40,11 +40,16 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-        <service android:name=".MessageService">
+        <service android:name=".MessageService" >
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

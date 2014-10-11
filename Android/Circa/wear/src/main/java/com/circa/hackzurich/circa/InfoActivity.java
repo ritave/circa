@@ -120,7 +120,6 @@ public class InfoActivity extends Activity {
             googleApiClient = getApi();
             googleApiClient.blockingConnect();
 
-
             node = getNode();
             return null;
         }
