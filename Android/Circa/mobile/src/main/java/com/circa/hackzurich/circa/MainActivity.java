@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
         downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
         downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         downAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                5 * 1000, 3*interval, downPintent);
+                5 * 1000, 6*interval, downPintent);
                 //5 * 1000, AlarmManager.INTERVAL_HOUR, downPintent);
 
         Intent pushIntent = new Intent(this, PushService.class);

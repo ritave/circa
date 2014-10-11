@@ -6,11 +6,20 @@ import android.location.Location;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DownloadService extends Service {
     public DownloadService() {
@@ -28,11 +37,6 @@ public class DownloadService extends Service {
         Log.d("Circa", "download_service_on");
         gps = new GPSTracker(DownloadService.this);
 
-        // TO DO - update PushService.places
-        // example
-        /*Place place = new Place(1, Place.getDateTime(), 1.0, 1.0, 0, 0, 1);
-        PushService.places.clear();
-        PushService.places.add(place);*/
         // check if GPS enabled
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
@@ -40,35 +44,33 @@ public class DownloadService extends Service {
             Log.d("Circa", "lat: " + latitude);
             Log.d("Circa", "long: " + longitude);
 
-            URL url = null;
-            HttpURLConnection connection = null;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HttpClient Client = new DefaultHttpClient();
+                    try {
+                        String url = "http://students.mimuw.edu.pl:33380/notification/";
+                        String gsonResult = "";
 
-            try {
-                url = new URL("http://students.mimuw.edu.pl:33380/notification/");
-                connection = (HttpURLConnection)url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setDoInput(true);
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                Log.d("Circa", "connected5");
-                String notes = br.readLine();
-                Log.d("Circa", "connected6");
-                String buf = "";
-                while ((buf = br.readLine()) != null) {
-                    Log.d("Circa", "connected7");
-                    notes += buf;
+                        // Create Request to server and get response
+                        HttpGet httpget = new HttpGet(url);
+                        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                        gsonResult = Client.execute(httpget, responseHandler);
+                        Gson gson = new Gson();
+                        PushService.places.clear();
+                        PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
+                        Log.d("Circa", "Result: " + gsonResult);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                Log.d("Circa", "Result: " + notes);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            });
+            thread.start();
 
 
         } else {
             Log.d("Circa", "GPS or Network is not enabled");
         }
-        Log.d("Circa", "Num of places in cache: " + PushService.places.size());
 
         return Service.START_NOT_STICKY;
     }

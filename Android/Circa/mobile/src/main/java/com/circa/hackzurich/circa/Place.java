@@ -21,11 +21,12 @@ public class Place {
         return dateFormat.format(date);
     }
 
-    public Place(Integer id, String created_at, Double latitude, Double longitude, Integer kind, Integer debunk, Integer confirmed) {
+    public Place(Integer id, String created_at, Double latitude, Double longitude, String text_note, Integer kind, Integer debunk, Integer confirmed) {
         this.id = id;
         this.created_at = created_at;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.text_note = text_note;
         this.kind = kind;
         this.debunk = debunk;
         this.confirmed = confirmed;

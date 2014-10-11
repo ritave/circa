@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         applicationId "com.circa.hackzurich.circa"
@@ -24,4 +24,5 @@ dependencies {
     wearApp project(':wear')
     compile 'com.google.android.gms:play-services-wearable:5.0.77'
     compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.google.code.gson:gson:2.2.4'
 }
