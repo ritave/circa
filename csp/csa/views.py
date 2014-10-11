@@ -39,7 +39,9 @@ class NotificationList(generics.ListCreateAPIView):
     # def get_queryset(self):
     #     queryset = Notification.getObjectsInRange(0,0)
     #     return queryset
-    queryset = Notification.objects.all()
+    # queryset = Notification.objects.all()
+    model = Notification
+    paginate_by = None
 
     permission_classes = (AllowAny,)
 
@@ -49,6 +51,7 @@ class NotificationList(generics.ListCreateAPIView):
 class NotificationInArea(generics.ListAPIView):
     serializer_class = NotificationSerializer
     permission_classes = (AllowAny,)
+    paginate_by = None
 
     def get_queryset(self):
         latitude = int(self.kwargs['latitude'])

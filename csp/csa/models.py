@@ -15,13 +15,13 @@ class Notification(models.Model):
         (OTHER, 'Other')
     )
 
-    date = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     latitude = models.FloatField() #Central Hotel
     longitude = models.FloatField()
-    checkin_type = models.PositiveSmallIntegerField(max_length=1, choices=CHECKIN_CHOICES, default=FREEWIFI)
-    other_description = models.TextField(max_length=160, null=True, blank=True)
-    positive = models.PositiveIntegerField(default=1)
-    negative = models.PositiveIntegerField(default=0)
+    kind = models.PositiveSmallIntegerField(max_length=1, choices=CHECKIN_CHOICES, default=FREEWIFI)
+    text_note = models.TextField(max_length=160, null=True, blank=True)
+    confirmed = models.PositiveIntegerField(default=1)
+    debunk = models.PositiveIntegerField(default=0)
 
     def getObjectsInRange(latitude, longitude):
         RADIUS = 0.1
