@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class InfoActivity extends Activity {
+    static final String MESSAGE_ID = "/send/new_alert";
     private TextView mTextView;
     private WearableListView mWearableListView;
     String[] name=null;
@@ -30,7 +31,6 @@ public class InfoActivity extends Activity {
 
     Node node;
     GoogleApiClient googleApiClient;
-    public static final String START_ACTIVITY_PATH = "/start/SendActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class InfoActivity extends Activity {
             }
         });*/
 
-        new LoginToGoogleTask().execute(this);
+        new LoginToGoogleTask().execute();
     }
 
     private GoogleApiClient getApi()
@@ -60,12 +60,14 @@ public class InfoActivity extends Activity {
         return nodes.getNodes().iterator().next();
     }
 
-    private void sendInfo(int kindId)
+    private void sendInfo(final int kindId)
     {
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... params) {
+                byte[] bytes = new byte[1];
+                bytes[0] = (byte)kindId;
                 MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                        googleApiClient, node.getId(), START_ACTIVITY_PATH, null).await();
+                        googleApiClient, node.getId(), MESSAGE_ID, bytes).await();
                 if (!result.getStatus().isSuccess()) {
                     Log.e("FUCK", "ERROR: failed to send Message: " + result.getStatus());
                 }
@@ -112,11 +114,9 @@ public class InfoActivity extends Activity {
         }
     }
 
-    private class LoginToGoogleTask extends AsyncTask<Context, Void, Void> {
-        Context context;
+    private class LoginToGoogleTask extends AsyncTask<Void, Void, Void> {
 
-        protected Void doInBackground(Context... contexts) {
-            context = contexts[0];
+        protected Void doInBackground(Void... params) {
             googleApiClient = getApi();
             googleApiClient.blockingConnect();
 

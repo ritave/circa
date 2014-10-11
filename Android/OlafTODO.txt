@@ -1,3 +1,4 @@
 TODO:
 Stacks
 Notifcation icon
+Choices in wear app from strings.xml

@@ -7,6 +7,7 @@ public class DescConstants {
     static final String NOTIFICATION_IS_CONFIRM = "notification_status";
     static final String ACTION_CONFIRM = "action_confirm";
     static final String ACTION_DEBUNK = "action_debunk";
+    static final String MESSAGE_ID = "/send/new_alert";
 
     // Kinds
     static final int INFO_WIFI       = 0;

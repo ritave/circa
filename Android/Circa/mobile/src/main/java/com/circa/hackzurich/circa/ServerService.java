@@ -32,6 +32,11 @@ public class ServerService extends IntentService {
         context.startService(intent);
     }
 
+    public static void newAlert(int kindId)
+    {
+        Log.e("FUCK", "new alert not handled");
+    }
+
 
     public ServerService() {
         super("ServerService");
