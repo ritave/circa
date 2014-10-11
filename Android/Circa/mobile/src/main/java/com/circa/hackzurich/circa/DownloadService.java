@@ -3,6 +3,8 @@ package com.circa.hackzurich.circa;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
+import android.os.AsyncTask;
+import android.os.Debug;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -40,28 +42,43 @@ public class DownloadService extends Service {
             Log.d("Circa", "lat: " + latitude);
             Log.d("Circa", "long: " + longitude);
 
-            URL url = null;
-            HttpURLConnection connection = null;
+            new AsyncTask<Void, Void, Void>() {
+                protected Void doInBackground(Void... params) {
+                    URL url = null;
+                    HttpURLConnection connection = null;
 
-            try {
-                url = new URL("http://students.mimuw.edu.pl:33380/notification/");
-                connection = (HttpURLConnection)url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setDoInput(true);
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                Log.d("Circa", "connected5");
-                String notes = br.readLine();
-                Log.d("Circa", "connected6");
-                String buf = "";
-                while ((buf = br.readLine()) != null) {
-                    Log.d("Circa", "connected7");
-                    notes += buf;
+                    try
+
+                    {
+                        url = new URL("http://students.mimuw.edu.pl:33380/notification/");
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setDoInput(true);
+                        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        Log.d("Circa", "connected5");
+                        String notes = br.readLine();
+                        Log.d("Circa", "connected6");
+                        String buf = "";
+                        while ((buf = br.readLine()) != null) {
+                            Log.d("Circa", "connected7");
+                            notes += buf;
+                        }
+                        Log.d("Circa", "Result: " + notes);
+                    } catch (
+                            Exception e
+                            )
+
+                    {
+                        e.printStackTrace();
+                        try {
+                            Log.e("FUCK", "Error code: " + connection.getResponseCode());
+                        } catch (Exception e2) {}
+                    }
+
+                    return null;
                 }
-                Log.d("Circa", "Result: " + notes);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            }.execute();
 
 
 

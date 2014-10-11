@@ -2,7 +2,9 @@ package com.circa.hackzurich.circa;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +21,10 @@ public class ResponseActivity extends Activity {
 
         Intent intent = getIntent();
 
-        int notificationId = intent.getIntExtra(DescConstants.NOTIFICATION_ID, 0);
-        int tipId          = intent.getIntExtra(DescConstants.TIP_ID, 0);
-        boolean isConfirm  = intent.getBooleanExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
+        int notificationId     = intent.getIntExtra(DescConstants.NOTIFICATION_ID, 0);
+        int tipId              = intent.getIntExtra(DescConstants.TIP_ID, 0);
+        boolean isConfirm      = intent.getBooleanExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
+
         WearNotification.cancel(this, notificationId);
 
         if (isConfirm)
