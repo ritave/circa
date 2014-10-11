@@ -35,9 +35,9 @@ class Notification(models.Model):
         return closeObjects
 
     def addPositiveVote(self):
-        self.positive += 1
+        self.confirmed += 1
         self.save()
 
     def addNegativeVote(self):
-        self.negative += 1
+        self.debunk += 1
         self.save()
