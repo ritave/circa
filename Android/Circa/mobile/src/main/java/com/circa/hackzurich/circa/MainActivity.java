@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ public class MainActivity extends Activity {
     private final Integer interval = 10 * 1000;
     private AlarmManager downAlarm, pushAlarm;
     private PendingIntent downPintent, pushPintent;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,10 @@ public class MainActivity extends Activity {
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
         PushService.radius = 10;
+        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(10, 10))
+                .title("Hello world"));
     }
 
 
