@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
-        PushService.radius = 10;
+        PushService.radius = 30;
     }
 
 
@@ -76,7 +76,6 @@ public class MainActivity extends Activity {
             stopServices();
             b.setText(getString(R.string.daemon_start_button));
         }
-        WearNotification.send(this, 0, DescConstants.INFO_PICTURE, true);
     }
 
     @Override
