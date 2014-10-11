@@ -129,9 +129,13 @@ public class InfoActivity extends Activity {
             mWearableListView = (WearableListView) findViewById(R.id.info_list_view);
             //setadapter to listview
             mWearableListView.setAdapter(new InfoWearableListViewAdapter(getBaseContext()));
-            name= new String[]{"Free Wi-Fi", "Dangerous zone", "Other"};
-            image=new Integer[]{R.drawable.common_signin_btn_icon_dark,R.drawable.go_to_phone_00186,
-                    R.drawable.go_to_phone_00186};
+            name= new String[]{"Free water", "Picture opportunity", "Dangerous zone", "Free Wi-Fi", "Other"};
+            image=new Integer[]{
+                    R.drawable.ic_action_good,
+                    R.drawable.ic_action_camera,
+                    R.drawable.ic_action_bad,
+                    R.drawable.ic_action_network_wifi,
+                    R.drawable.ic_action_event};
 
             //on item click
             mWearableListView.setClickListener(new WearableListView.ClickListener() {
