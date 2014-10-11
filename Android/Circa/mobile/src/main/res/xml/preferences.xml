@@ -4,5 +4,5 @@
         android:title="@string/evernote_login"
         android:defaultValue="false"
         android:summary="@string/evernote_description"
-        android:key="evernoteCheckbox" />
+        android:key="pref_evernoteCheckbox" />
 </PreferenceScreen>
