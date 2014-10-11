@@ -26,9 +26,8 @@ class Notification(models.Model):
 
     def getObjectsInRange(latitude, longitude):
         RADIUS = 0.1
-        
-        closeObjects = Notification.objects.filter(latitude__leq=latitude+RADIUS).filter(latitude__geq=latitude-RADIUS)
-            .filter(longitude__leq=longitude+RADIUS).filter(longitude__geq=longitude-RADIUS)
+
+        closeObjects = Notification.objects.filter(latitude__leq=latitude+RADIUS).filter(latitude__geq=latitude-RADIUS).filter(longitude__leq=longitude+RADIUS).filter(longitude__geq=longitude-RADIUS)
 
         return closeObjects
 
