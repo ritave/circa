@@ -40,4 +40,3 @@ class Notification(models.Model):
     def addNegativeVote(self):
         self.negative += 1
         self.save()
-        # Add parameter for deleting cell
