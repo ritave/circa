@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
-    // 5 minutes
-    //private final Integer interval = 5 * 60 * 1000;
+    // 1 minute
+    //private final Integer interval = 1 * 60 * 1000;
     private final Integer interval = 10 * 1000;
 
     @Override
@@ -27,11 +27,18 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         PushService.places = new ArrayList<Place>();
         PushService.radius = 10;
-        Intent intent = new Intent(this, PushService.class);
-        PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
-        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                50 * 1000, interval, pintent);
+
+        Intent downloadIntent = new Intent(this, DownloadService.class);
+        PendingIntent downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
+        AlarmManager downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        downAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                5 * 1000, AlarmManager.INTERVAL_HOUR, downPintent);
+
+        Intent pushIntent = new Intent(this, PushService.class);
+        PendingIntent pushPintent = PendingIntent.getService(this, 0, pushIntent, 0);
+        AlarmManager pushAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        pushAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                30 * 1000, interval, pushPintent);
     }
 
 

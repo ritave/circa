@@ -56,6 +56,7 @@ public class ServerService extends IntentService {
      * parameters.
      */
     private void handleActionConfirm(Integer tipId) {
+
         Log.d("Circa", "confirm " + tipId);
     }
 
@@ -64,6 +65,7 @@ public class ServerService extends IntentService {
      * parameters.
      */
     private void handleActionDebunk(Integer tipId) {
+
         Log.d("Circa", "debunk " + tipId);
     }
 }

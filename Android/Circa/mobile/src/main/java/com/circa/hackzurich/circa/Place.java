@@ -1,5 +1,9 @@
 package com.circa.hackzurich.circa;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Place {
     private Integer id;
     private String created_at;
@@ -10,22 +14,25 @@ public class Place {
     private Integer confirmed;
     private Integer debunk;
 
-    public Place() {
-        this.created_at = "";
-        this.latitude = 0.0;
-        this.longitude = 0.0;
-        this.kind = 0;
-        this.text_note = "";
-        this.confirmed = 0;
-        this.debunk = 0;
+    public static String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    public Place(Integer id, String created_at, Double latitude, Double longitude, Integer kind, Integer debunk, Integer confirmed) {
+        this.id = id;
+        this.created_at = created_at;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.kind = kind;
+        this.debunk = debunk;
+        this.confirmed = confirmed;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getCreated_at() {
@@ -44,20 +51,20 @@ public class Place {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public Integer getKind() {
         return kind;
     }
 
     public void setKind(Integer kind) {
         this.kind = kind;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getText_note() {

@@ -50,6 +50,7 @@ public class PushService extends Service {
             // send notification (if exist appropriate place)
             if (bestPlace != null) {
                 // TO DO - a few different kinds of notification
+                Log.d("Circa", "best place found");
                 WearNotification.send(this, bestPlace.getId(), "Free Wi-Fi nearby", true);
             }
 
