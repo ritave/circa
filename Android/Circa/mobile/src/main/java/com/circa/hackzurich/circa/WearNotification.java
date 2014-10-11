@@ -74,6 +74,6 @@ public class WearNotification extends Intent{
 
     private static void loadBG(Context context)
     {
-        bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wearBG);
+        bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wearbg);
     }
 }

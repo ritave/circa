@@ -2,8 +2,10 @@ package com.circa.hackzurich.circa;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
@@ -64,13 +66,25 @@ public class InfoActivity extends Activity {
     {
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... params) {
+                Intent animationIntent = new Intent(InfoActivity.this, ConfirmationActivity.class);
+                int animationType;
+                String message="";
+
                 byte[] bytes = new byte[1];
                 bytes[0] = (byte)kindId;
                 MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
                         googleApiClient, node.getId(), MESSAGE_ID, bytes).await();
                 if (!result.getStatus().isSuccess()) {
                     Log.e("FUCK", "ERROR: failed to send Message: " + result.getStatus());
+                    animationType = ConfirmationActivity.FAILURE_ANIMATION;
+                    message = "ERROR: Couldn't send to phone";
+                } else {
+                    animationType = ConfirmationActivity.SUCCESS_ANIMATION;
                 }
+                animationIntent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, animationType);
+                animationIntent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, message);
+                startActivity(animationIntent);
+
                 finish();
                 return null;
             }
