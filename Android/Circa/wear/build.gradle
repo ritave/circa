@@ -2,26 +2,38 @@ apply plugin: 'com.android.application'
 
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'DebugCircaKey'
+            keyPassword 'circa123'
+            storeFile file('C:/Users/Ritave/Documents/Coding/Projekty/circa/android.jks')
+            storePassword 'circa123'
+        }
+    }
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
-
+    buildToolsVersion '20.0.0'
     defaultConfig {
-        applicationId "com.circa.hackzurich.circa"
+        applicationId 'com.circa.hackzurich.circa'
         minSdkVersion 20
         targetSdkVersion 20
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.google.android.support:wearable:+'
     compile 'com.android.support:support-v4:20.0.+'
     compile 'com.google.android.gms:play-services-wearable:5.0.77'

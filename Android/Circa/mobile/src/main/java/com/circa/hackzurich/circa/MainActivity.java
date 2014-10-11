@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
-        PushService.radius = 30;
+        PushService.radius = 10;
     }
 
 
