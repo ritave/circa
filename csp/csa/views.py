@@ -6,6 +6,8 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from csa.serializers import *
 
+from rest_framework import generics
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -23,12 +25,22 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 
-class NotificationViewSet(viewsets.ModelViewSet):
+class NotificationList(generics.ListCreateAPIView):
     """
     API endpoint that allows groups to be viewed or edited.
     """
     serializer_class = NotificationSerializer
 
+    # def get_queryset(self):
+    #     queryset = Notification.getObjectsInRange(0,0)
+    #     return queryset
+
+
+class NotificationInArea(generics.ListAPIView):
+    serializer_class = NotificationSerializer
+
     def get_queryset(self):
-        queryset = Notification.getObjectsInRange(0,0)
+        latitude = int(self.kwargs['latitude'])
+        longitude = int(self.kwargs['longitude'])
+        queryset = Notification.getObjectsInRange(latitude,longitude)
         return queryset
