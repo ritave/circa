@@ -15,10 +15,9 @@ class Notification(models.Model):
         (OTHER, 'Other')
     )
 
-    unique_id = models.BigIntegerField(primary_key=True, default=42)
     date = models.DateTimeField(auto_now_add=True)
-    latitude = models.FloatField(default=47.377105) #Central Hotel
-    longitude = models.FloatField(default=8.543686)
+    latitude = models.FloatField() #Central Hotel
+    longitude = models.FloatField()
     checkin_type = models.PositiveSmallIntegerField(max_length=1, choices=CHECKIN_CHOICES, default=FREEWIFI)
     other_description = models.TextField(max_length=160, null=True, blank=True)
     positive = models.PositiveIntegerField(default=1)
@@ -27,13 +26,18 @@ class Notification(models.Model):
     def getObjectsInRange(latitude, longitude):
         RADIUS = 0.1
 
-        closeObjects = Notification.objects.filter(latitude__leq=latitude+RADIUS).filter(latitude__geq=latitude-RADIUS).filter(longitude__leq=longitude+RADIUS).filter(longitude__geq=longitude-RADIUS)
+        closeObjects = Notification.objects.filter(latitude__lte=latitude+RADIUS).\
+            filter(latitude__gte=latitude-RADIUS).\
+            filter(longitude__lte=longitude+RADIUS).\
+            filter(longitude__gte=longitude-RADIUS)
 
         return closeObjects
 
     def addPositiveVote(self):
         self.positive += 1
+        self.save()
 
     def addNegativeVote(self):
         self.negative += 1
+        self.save()
         # Add parameter for deleting cell

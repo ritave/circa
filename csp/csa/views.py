@@ -1,8 +1,10 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from csa.models import *
 
 # Create your views here.
 from django.contrib.auth.models import User, Group
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from csa.serializers import *
 
@@ -34,6 +36,7 @@ class NotificationList(generics.ListCreateAPIView):
     # def get_queryset(self):
     #     queryset = Notification.getObjectsInRange(0,0)
     #     return queryset
+    queryset = Notification.objects.all()
 
 
 class NotificationInArea(generics.ListAPIView):
@@ -44,3 +47,17 @@ class NotificationInArea(generics.ListAPIView):
         longitude = int(self.kwargs['longitude'])
         queryset = Notification.getObjectsInRange(latitude,longitude)
         return queryset
+
+@csrf_exempt
+def vote_positive(request, id):
+    if request.method == "POST":
+        Notification.objects.get(id=id).addPositiveVote()
+        return HttpResponse("ok")
+    return HttpResponse("invalid method")
+
+@csrf_exempt
+def vote_negative(request, id):
+    if request.method == "POST":
+        Notification.objects.get(id=id).addNegativeVote()
+        return HttpResponse("ok")
+    return HttpResponse("invalid method")

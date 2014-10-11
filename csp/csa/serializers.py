@@ -16,4 +16,4 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class NotificationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Notification
-        fields = ('unique_id','latitude','longitude','checkin_type','other_description','positive','negative',)
+        fields = ('id','latitude','longitude','checkin_type','other_description','positive','negative', 'date',)
