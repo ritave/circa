@@ -16,6 +16,8 @@ public class DescConstants {
     static final EvernoteSession.EvernoteService EVERNOTE_SERVICE = EvernoteSession.EvernoteService.PRODUCTION;
     static final String EVERNOTE_PREFERENCES = "pref_evernoteCheckbox";
 
+    static final String SERVER_NAME = "http://students.mimuw.edu.pl:33380/notification/";
+
     // Kinds
     static final int INFO_WATER      = 0;
     static final int INFO_PICTURE    = 1;

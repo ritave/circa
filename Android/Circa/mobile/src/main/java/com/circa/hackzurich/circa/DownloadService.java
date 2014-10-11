@@ -51,7 +51,7 @@ public class DownloadService extends Service {
                 public void run() {
                     HttpClient client = new DefaultHttpClient();
                     try {
-                        String url = "http://students.mimuw.edu.pl:33380/notification/" +
+                        String url = DescConstants.SERVER_NAME +
                                         + latitude + "/" + longitude + "/";
                         String gsonResult = "";
 

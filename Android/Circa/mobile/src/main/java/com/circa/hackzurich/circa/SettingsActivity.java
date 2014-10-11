@@ -47,9 +47,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        /*NumberPicker numPicker = (NumberPicker) this.findViewById(R.id.numberPicker);
-        numPicker.setValue(30);
-        numPicker.setDisplayedValues(new String[]{"10","20","30","40","50","60","70","80","90","100"});*/
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
