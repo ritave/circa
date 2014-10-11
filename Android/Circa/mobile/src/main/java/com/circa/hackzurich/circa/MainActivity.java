@@ -21,6 +21,8 @@ public class MainActivity extends Activity {
     // 1 minute
     //private final Integer interval = 1 * 60 * 1000;
     private final Integer interval = 10 * 1000;
+    private AlarmManager downAlarm, pushAlarm;
+    private PendingIntent downPintent, pushPintent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +31,7 @@ public class MainActivity extends Activity {
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
         PushService.radius = 10;
-
-        Intent downloadIntent = new Intent(this, DownloadService.class);
-        PendingIntent downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
-        AlarmManager downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        downAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                5 * 1000, AlarmManager.INTERVAL_HOUR, downPintent);
-
-        Intent pushIntent = new Intent(this, PushService.class);
-        PendingIntent pushPintent = PendingIntent.getService(this, 0, pushIntent, 0);
-        AlarmManager pushAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        pushAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                30 * 1000, interval, pushPintent);
+        startServices();
     }
 
 
@@ -51,11 +42,41 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    private void startServices() {
+        Intent downloadIntent = new Intent(this, DownloadService.class);
+        downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
+        downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        downAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                5 * 1000, 3*interval, downPintent);
+                //5 * 1000, AlarmManager.INTERVAL_HOUR, downPintent);
+
+        Intent pushIntent = new Intent(this, PushService.class);
+        pushPintent = PendingIntent.getService(this, 0, pushIntent, 0);
+        pushAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        pushAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                30 * 1000, interval, pushPintent);
+    }
+
+    private void stopServices() {
+        if (downAlarm != null) {
+            downAlarm.cancel(downPintent);
+        }
+        if (pushAlarm != null) {
+            pushAlarm.cancel(pushPintent);
+        }
+    }
+
 
     public void daemonButtonHandle(View v)
     {
-        Button b = (Button)v;
-        WearNotification.send(this, 666, "Free Wi-Fi nearby", true);
+        Button b = (Button) this.findViewById(R.id.daemon);
+        if (b.getText().equals(getString(R.string.daemon_start_button))) {
+            startServices();
+            b.setText(getString(R.string.daemon_stop_button));
+        } else {
+            stopServices();
+            b.setText(getString(R.string.daemon_start_button));
+        }
     }
 
     @Override
