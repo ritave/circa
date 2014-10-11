@@ -8,12 +8,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PushService extends Service {
     public PushService() {
     }
 
     public static ArrayList<Place> places;
+    public static HashSet<Integer> usedPlaces;
     public static Integer radius;
     private GPSTracker gps;
 
@@ -43,7 +45,7 @@ public class PushService extends Service {
                 Location.distanceBetween(latitude, longitude, place.getLatitude(), place.getLongitude(), results);
                 float distanceInMeters = results[0];
                 int newRank = place.getConfirmed() - place.getDebunk();
-                if (distanceInMeters < radius && newRank > rank) {
+                if (distanceInMeters < radius && newRank > rank && !usedPlaces.contains(place.getId())) {
                     bestPlace = place;
                 }
             }
@@ -51,6 +53,8 @@ public class PushService extends Service {
             if (bestPlace != null) {
                 // TO DO - a few different kinds of notification
                 Log.d("Circa", "best place found");
+                // mark used places
+                usedPlaces.add(bestPlace.getId());
                 WearNotification.send(this, bestPlace.getId(), "Free Wi-Fi nearby", true);
             }
 

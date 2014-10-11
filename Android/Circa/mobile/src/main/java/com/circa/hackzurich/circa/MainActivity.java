@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class MainActivity extends Activity {
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PushService.places = new ArrayList<Place>();
+        PushService.usedPlaces = new HashSet<Integer>();
         PushService.radius = 10;
 
         Intent downloadIntent = new Intent(this, DownloadService.class);
