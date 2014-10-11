@@ -40,7 +40,7 @@ public class ServerService extends IntentService {
             public void run() {
                 HttpClient client = new DefaultHttpClient();
                 try {
-                    String url = "http://students.mimuw.edu.pl:33380/notification/" +
+                    String url = DescConstants.SERVER_NAME +
                             +tipId + "/rate/" + (positive ? "positive" : "negative") + "/";
                     String gsonResult = "";
 
@@ -63,11 +63,9 @@ public class ServerService extends IntentService {
             public void run() {
                 HttpClient client = new DefaultHttpClient();
                 try {
-                    String url = "http://students.mimuw.edu.pl:33380/notification/";
                     String gsonResult = "";
-
                     // Create Request to server and check response
-                    HttpPost httppost = new HttpPost(url);
+                    HttpPost httppost = new HttpPost(DescConstants.SERVER_NAME);
                     List<NameValuePair> params = new ArrayList<NameValuePair>(2);
                     params.add(new BasicNameValuePair("latitude", "" + latitude));
                     params.add(new BasicNameValuePair("longitude", "" + longitude));
