@@ -77,6 +77,7 @@ public class MainActivity extends Activity {
             stopServices();
             b.setText(getString(R.string.daemon_start_button));
         }
+        WearNotification.send(this, 0, "Ads", true);
     }
 
     @Override
@@ -86,6 +87,7 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
