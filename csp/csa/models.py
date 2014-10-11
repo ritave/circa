@@ -20,7 +20,7 @@ class Notification(models.Model):
     latitude = models.FloatField(default=47.377105) #Central Hotel
     longitude = models.FloatField(default=8.543686)
     checkin_type = models.PositiveSmallIntegerField(max_length=1, choices=CHECKIN_CHOICES, default=FREEWIFI)
-    other_description = models.TextField(max_length=160, null=True, blank=True, default=null)
+    other_description = models.TextField(max_length=160, null=True, blank=True)
     positive = models.PositiveIntegerField(default=1)
     negative = models.PositiveIntegerField(default=0)
 
