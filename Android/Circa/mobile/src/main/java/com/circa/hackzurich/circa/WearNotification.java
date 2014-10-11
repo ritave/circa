@@ -29,6 +29,8 @@ public class WearNotification extends Intent{
         Intent evernoteIntent = new Intent(context, ResponseActivity.class);
         evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
         evernoteIntent.putExtra(DescConstants.KIND_ID, kindId);
+        evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
+        evernoteIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
 
         PendingIntent yesPendingIntent = PendingIntent.getActivity(context, notificationId,
                 yesIntent, PendingIntent.FLAG_UPDATE_CURRENT);

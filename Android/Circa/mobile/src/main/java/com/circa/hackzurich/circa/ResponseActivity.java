@@ -22,8 +22,12 @@ public class ResponseActivity extends Activity {
         Intent intent = getIntent();
 
         int notificationId     = intent.getIntExtra(DescConstants.NOTIFICATION_ID, 0);
+        int kindId             = intent.getIntExtra(DescConstants.KIND_ID, -1);
         int tipId              = intent.getIntExtra(DescConstants.TIP_ID, 0);
         boolean isConfirm      = intent.getBooleanExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
+
+        if (kindId != -1)
+            CircaApplication.sentEvernoteNote(DescConstants.IDToEventName(kindId), "");
 
         WearNotification.cancel(this, notificationId);
         ServerService.sendFeedback(tipId, isConfirm);

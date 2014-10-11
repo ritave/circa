@@ -26,15 +26,15 @@ public class PushService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("Circa", "push_service_on");
+        //Log.d("Circa", "push_service_on");
         gps = new GPSTracker(PushService.this);
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
-            Log.d("Circa", "lat: " + latitude);
-            Log.d("Circa", "long: " + longitude);
+            //Log.d("Circa", "lat: " + latitude);
+            //Log.d("Circa", "long: " + longitude);
 
             // try match best place
             ArrayList<Place> bestPlaces = new ArrayList<Place>();
@@ -48,7 +48,7 @@ public class PushService extends Service {
                 }
             }
 
-            Log.d("Circa", "Found " + bestPlaces.size() + " best places");
+            //Log.d("Circa", "Found " + bestPlaces.size() + " best places");
             // send notification (if exist appropriate place)
             for (Place place : bestPlaces) {
                 // mark used places
@@ -57,7 +57,7 @@ public class PushService extends Service {
             }
 
         } else {
-            Log.d("Circa", "GPS or Network is not enabled");
+            Log.e("Circa", "GPS or Network is not enabled");
             // Ask user to enable GPS/network in settings
             //gps.showSettingsAlert();
         }

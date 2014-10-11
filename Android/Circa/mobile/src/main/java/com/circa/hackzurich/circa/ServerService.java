@@ -48,7 +48,7 @@ public class ServerService extends IntentService {
                     HttpPost httppost = new HttpPost(url);
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     gsonResult = client.execute(httppost, responseHandler);
-                    Log.d("Circa", "Result: " + gsonResult);
+                    //Log.d("Circa", "Result: " + gsonResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -75,7 +75,7 @@ public class ServerService extends IntentService {
                     gsonResult = client.execute(httppost, responseHandler);
                     Gson gson = new Gson();
                     Place res = gson.fromJson(gsonResult, Place.class);
-                    Log.d("Circa", "Result: " + gsonResult.toString() + ", id = " + res.getId());
+                    //Log.d("Circa", "Result: " + gsonResult.toString() + ", id = " + res.getId());
                     PushService.usedPlaces.add(res.getId());
                 } catch (Exception e) {
                     e.printStackTrace();

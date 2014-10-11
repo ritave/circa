@@ -36,15 +36,15 @@ public class DownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("Circa", "download_service_on");
+        //Log.d("Circa", "download_service_on");
         gps = new GPSTracker(DownloadService.this);
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
             final double latitude = gps.getLatitude();
             final double longitude = gps.getLongitude();
-            Log.d("Circa", "lat: " + latitude);
-            Log.d("Circa", "long: " + longitude);
+            //Log.d("Circa", "lat: " + latitude);
+            //Log.d("Circa", "long: " + longitude);
 
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -62,7 +62,7 @@ public class DownloadService extends Service {
                         Gson gson = new Gson();
                         PushService.places.clear();
                         PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
-                        Log.d("Circa", "Result: " + gsonResult);
+                        //Log.d("Circa", "Result: " + gsonResult);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -71,7 +71,7 @@ public class DownloadService extends Service {
             thread.start();
 
         } else {
-            Log.d("Circa", "GPS or Network is not enabled");
+            Log.e("Circa", "GPS or Network is not enabled");
         }
 
         return Service.START_NOT_STICKY;
