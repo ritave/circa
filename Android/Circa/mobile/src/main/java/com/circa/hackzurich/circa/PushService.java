@@ -51,7 +51,6 @@ public class PushService extends Service {
             }
             // send notification (if exist appropriate place)
             if (bestPlace != null) {
-                // TO DO - a few different kinds of notification
                 Log.d("Circa", "best place found");
                 // mark used places
                 usedPlaces.add(bestPlace.getId());

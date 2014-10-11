@@ -23,12 +23,7 @@ public class ResponseActivity extends Activity {
         int tipId          = intent.getIntExtra(DescConstants.TIP_ID, 0);
         boolean isConfirm  = intent.getBooleanExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
         WearNotification.cancel(this, notificationId);
-
-        if (isConfirm)
-            ServerService.confirmInfo(getApplicationContext(), tipId);
-        else
-            ServerService.debunkInfo(getApplicationContext(), tipId);
-
+        ServerService.sendFeedback(tipId, isConfirm);
         finish();
     }
 

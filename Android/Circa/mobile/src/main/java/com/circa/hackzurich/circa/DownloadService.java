@@ -39,23 +39,24 @@ public class DownloadService extends Service {
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
+            final double latitude = gps.getLatitude();
+            final double longitude = gps.getLongitude();
             Log.d("Circa", "lat: " + latitude);
             Log.d("Circa", "long: " + longitude);
 
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    HttpClient Client = new DefaultHttpClient();
+                    HttpClient client = new DefaultHttpClient();
                     try {
                         String url = "http://students.mimuw.edu.pl:33380/notification/";
+                                        //+ latitude + "/" + longitude + "/";
                         String gsonResult = "";
 
                         // Create Request to server and get response
                         HttpGet httpget = new HttpGet(url);
                         ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                        gsonResult = Client.execute(httpget, responseHandler);
+                        gsonResult = client.execute(httpget, responseHandler);
                         Gson gson = new Gson();
                         PushService.places.clear();
                         PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));

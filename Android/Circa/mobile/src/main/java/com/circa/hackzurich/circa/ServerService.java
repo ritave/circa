@@ -6,17 +6,28 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import java.lang.Integer;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
- * <p>
+ * <p/>
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
 public class ServerService extends IntentService {
-    public static void confirmInfo(Context context, int tipId)
+    /*public static void confirmInfo(Context context, int tipId)
     {
         Intent intent = new Intent(context, ServerService.class);
         intent.setAction(DescConstants.ACTION_CONFIRM);
@@ -30,10 +41,36 @@ public class ServerService extends IntentService {
         intent.setAction(DescConstants.ACTION_DEBUNK);
         intent.putExtra(DescConstants.TIP_ID, tipId);
         context.startService(intent);
+    }*/
+
+    public static void sendFeedback(final int tipId, final boolean positive) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpClient client = new DefaultHttpClient();
+                try {
+                    String url = "http://students.mimuw.edu.pl:33380/notification/" +
+                            + tipId + "/rate/" + (positive ? "positive" : "negative") + "/" ;
+                    String gsonResult = "";
+
+                    // Create Request to server and check response
+                    HttpPost httppost = new HttpPost(url);
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    gsonResult = client.execute(httppost, responseHandler);
+                    Log.d("Circa", "Result: " + gsonResult);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
-    public static void newAlert(int kindId)
-    {
+    public static void debunkInfo(int tipId) {
+        Log.e("FUCK", "new alert not handled");
+    }
+
+    public static void newAlert(int kindId) {
         Log.e("FUCK", "new alert not handled");
     }
 
@@ -42,6 +79,10 @@ public class ServerService extends IntentService {
         super("ServerService");
     }
 
+    @Override
+    protected void onHandleIntent(Intent intent) {
+    }
+/*
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -56,21 +97,13 @@ public class ServerService extends IntentService {
         }
     }
 
-    /**
-     * Handle action Confirm in the provided background thread with the provided
-     * parameters.
-     */
     private void handleActionConfirm(Integer tipId) {
 
         Log.d("Circa", "confirm " + tipId);
     }
 
-    /**
-     * Handle action Debunk in the provided background thread with the provided
-     * parameters.
-     */
     private void handleActionDebunk(Integer tipId) {
 
         Log.d("Circa", "debunk " + tipId);
-    }
+    }*/
 }
