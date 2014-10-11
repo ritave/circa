@@ -13,7 +13,7 @@ public class DescConstants {
 
     static final String CONSUMER_KEY = "ritave";
     static final String CONSUMER_SECRET = "29f7ac88f572d484";
-    static final EvernoteSession.EvernoteService EVERNOTE_SERVICE = EvernoteSession.EvernoteService.SANDBOX;
+    static final EvernoteSession.EvernoteService EVERNOTE_SERVICE = EvernoteSession.EvernoteService.PRODUCTION;
     static final String EVERNOTE_PREFERENCES = "pref_evernoteCheckbox";
 
     // Kinds
