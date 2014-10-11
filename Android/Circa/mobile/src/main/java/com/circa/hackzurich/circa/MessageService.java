@@ -20,8 +20,12 @@ public class MessageService extends WearableListenerService {
             {
                 CircaApplication.sentEvernoteNote(DescConstants.IDToEventName(kindId), "Test!");
             }
+            GPSTracker gps = new GPSTracker(MessageService.this);
 
-            ServerService.newAlert(kindId);
+            // check if GPS enabled
+            if (gps.canGetLocation()) {
+                ServerService.newAlert(kindId, gps.getLatitude(), gps.getLongitude());
+            }
         } else
             super.onMessageReceived(messageEvent);
     }

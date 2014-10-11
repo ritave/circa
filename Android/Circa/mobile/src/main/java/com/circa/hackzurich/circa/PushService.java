@@ -37,24 +37,23 @@ public class PushService extends Service {
             Log.d("Circa", "long: " + longitude);
 
             // try match best place
-            Place bestPlace = null;
-            int rank = -3;
+            ArrayList<Place> bestPlaces = new ArrayList<Place>();
 
             for (Place place : places) {
                 float[] results = new float[1];
                 Location.distanceBetween(latitude, longitude, place.getLatitude(), place.getLongitude(), results);
                 float distanceInMeters = results[0];
-                int newRank = place.getConfirmed() - place.getDebunk();
-                if (distanceInMeters < radius && newRank > rank && !usedPlaces.contains(place.getId())) {
-                    bestPlace = place;
+                if (distanceInMeters < radius && !usedPlaces.contains(place.getId())) {
+                    bestPlaces.add(place);
                 }
             }
+
+            Log.d("Circa", "Found " + bestPlaces.size() + " best places");
             // send notification (if exist appropriate place)
-            if (bestPlace != null) {
-                Log.d("Circa", "best place found");
+            for (Place place : bestPlaces) {
                 // mark used places
-                usedPlaces.add(bestPlace.getId());
-                WearNotification.send(this, bestPlace.getId(), "Free Wi-Fi nearby", true);
+                usedPlaces.add(place.getId());
+                WearNotification.send(this, place.getId(), DescConstants.IDToEventName(place.getKind()), true);
             }
 
         } else {
