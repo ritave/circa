@@ -27,5 +27,8 @@ class NotificationViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+
+    def get_queryset(self):
+        queryset = Notification.getObjectsInRange(0,0)
+        return queryset
