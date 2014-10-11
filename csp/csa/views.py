@@ -46,8 +46,6 @@ class NotificationList(generics.ListCreateAPIView):
     permission_classes = (AllowAny,)
 
 
-
-
 class NotificationInArea(generics.ListAPIView):
     serializer_class = NotificationSerializer
     permission_classes = (AllowAny,)

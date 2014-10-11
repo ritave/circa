@@ -23,6 +23,7 @@ class Notification(models.Model):
     confirmed = models.PositiveIntegerField(default=1)
     debunk = models.PositiveIntegerField(default=0)
 
+    @staticmethod
     def getObjectsInRange(latitude, longitude):
         RADIUS = 0.1
 
