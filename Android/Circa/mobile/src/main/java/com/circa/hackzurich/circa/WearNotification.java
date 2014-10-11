@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.view.Gravity;
 
 public class WearNotification extends Intent{
     static int notificationId = 1;
@@ -29,7 +30,8 @@ public class WearNotification extends Intent{
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
                 .setContentIcon(DescConstants.IDToPicture(kindId))
-                .setHintHideIcon(true);
+                .setContentIconGravity(Gravity.START)
+                .setHintHideIcon(false);
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
