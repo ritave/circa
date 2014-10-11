@@ -40,4 +40,22 @@ public class DescConstants {
         }
         return "Unknown happening";
     }
+
+    public static int IDToPicture(int eventId)
+    {
+        switch (eventId)
+        {
+            case INFO_WATER:
+                return R.drawable.ic_action_network_wifi;
+            case INFO_PICTURE:
+                return R.drawable.ic_action_camera;
+            case INFO_DANGERZONE:
+                return R.drawable.ic_action_good;
+            case INFO_WIFI:
+                return R.drawable.ic_action_network_wifi;
+            case INFO_OTHER:
+                return R.drawable.ic_action_event;
+        }
+        throw new RuntimeException("IDToPicture crapped out");
+    }
 }

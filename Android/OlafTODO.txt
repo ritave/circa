@@ -3,3 +3,5 @@ Stacks
 Notifcation icon
 Choices in wear app from strings.xml
 Error handling with evernote authorization
+Evernote note when dismissing
+Google maps with pins on main activity on phone

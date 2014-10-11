@@ -10,7 +10,7 @@ import android.support.v4.app.NotificationManagerCompat;
 public class WearNotification extends Intent{
     static int notificationId = 1;
 
-    public static void send(Context context, int tipId, String description, boolean is_tip)
+    public static void send(Context context, int tipId, int kindId, boolean is_tip)
     {
         Intent yesIntent = new Intent(context, ResponseActivity.class);
         yesIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
@@ -27,10 +27,14 @@ public class WearNotification extends Intent{
         PendingIntent noPendingIntent = PendingIntent.getActivity(context, notificationId + 1,
                 noIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
+                .setContentIcon(DescConstants.IDToPicture(kindId))
+                .setHintHideIcon(true);
+
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.common_signin_btn_icon_dark)
-                        .setContentText(description)
+                        .setSmallIcon(DescConstants.IDToPicture(kindId))
+                        .setContentText(DescConstants.IDToEventName(kindId))
                         .setDefaults(Notification.DEFAULT_ALL)
                         .addAction(
                                 R.drawable.ic_action_accept,
@@ -39,7 +43,8 @@ public class WearNotification extends Intent{
                         .addAction(
                                 R.drawable.ic_action_cancel,
                                 context.getString(R.string.debunk_info_notification),
-                                noPendingIntent);
+                                noPendingIntent)
+                        .extend(wearableExtender);
         if (is_tip)
             notificationBuilder.setContentTitle("Tip");
         else

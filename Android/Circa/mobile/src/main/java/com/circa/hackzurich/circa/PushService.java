@@ -54,7 +54,7 @@ public class PushService extends Service {
                 Log.d("Circa", "best place found");
                 // mark used places
                 usedPlaces.add(bestPlace.getId());
-                WearNotification.send(this, bestPlace.getId(), "Free Wi-Fi nearby", true);
+                WearNotification.send(this, bestPlace.getId(), DescConstants.INFO_WIFI, true);
             }
 
         } else {
