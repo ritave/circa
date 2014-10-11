@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+
     <style name="btnStyleShakespeare" parent="@android:style/Widget.Button">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>

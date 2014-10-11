@@ -73,12 +73,12 @@ public class ServerService extends IntentService {
                     params.add(new BasicNameValuePair("longitude", "" + longitude));
                     params.add(new BasicNameValuePair("kind", "" + kindId));
                     httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-                    HttpResponse response = client.execute(httppost);
-                    Log.d("Circa", "Result: " + response.toString());
-                    if (response.getStatusLine().getStatusCode() != 201) {
-                       Log.d("Circa", "Error code: " + response.getStatusLine().getStatusCode());
-                    }
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    gsonResult = client.execute(httppost, responseHandler);
+                    Gson gson = new Gson();
+                    Place res = gson.fromJson(gsonResult, Place.class);
+                    Log.d("Circa", "Result: " + gsonResult.toString() + ", id = " + res.getId());
+                    PushService.usedPlaces.add(res.getId());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
