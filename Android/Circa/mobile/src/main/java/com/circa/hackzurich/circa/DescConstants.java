@@ -11,5 +11,5 @@ public class DescConstants {
     // Kinds
     static final int INFO_WIFI       = 0;
     static final int INFO_DANGERZONE = 1;
-    static final int INFO_OTHER      = 255;
+    static final int INFO_OTHER      = 2;
 }
