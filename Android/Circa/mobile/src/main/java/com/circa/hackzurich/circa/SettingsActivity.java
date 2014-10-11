@@ -41,7 +41,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
      * shown on tablets.
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
-    public static final String KEY_PREF_EVERNOTE = "pref_evernoteCheckbox";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +49,21 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(KEY_PREF_EVERNOTE)) {
+        if (key.equals(DescConstants.EVERNOTE_PREFERENCES)) {
             Toast.makeText(this, "ASd", Toast.LENGTH_LONG).show();
-
+            boolean isOn = sharedPreferences.getBoolean(key, false);
+            if (isOn)
+                if (!CircaApplication.evernoteSession.isLoggedIn()) {
+                    CircaApplication.evernoteSession.authenticate(this);
+                }
+            else if (CircaApplication.evernoteSession.isLoggedIn()) {
+                try {
+                    CircaApplication.evernoteSession.logOut(this);
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

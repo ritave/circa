@@ -3,6 +3,8 @@ package com.circa.hackzurich.circa;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
+import android.os.AsyncTask;
+import android.os.Debug;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -67,7 +69,6 @@ public class DownloadService extends Service {
                 }
             });
             thread.start();
-
 
         } else {
             Log.d("Circa", "GPS or Network is not enabled");
