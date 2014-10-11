@@ -26,18 +26,45 @@ public class WearNotification extends Intent{
         noIntent.putExtra(DescConstants.TIP_ID, tipId);
         noIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, false);
 
+        Intent evernoteIntent = new Intent(context, ResponseActivity.class);
+        evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
+        evernoteIntent.putExtra(DescConstants.KIND_ID, kindId);
+
         PendingIntent yesPendingIntent = PendingIntent.getActivity(context, notificationId,
                 yesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent noPendingIntent = PendingIntent.getActivity(context, notificationId + 1,
                 noIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent evernotePendingIntent = PendingIntent.getActivity(context, notificationId + 1,
+                evernoteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (bg == null)
             loadBG(context);
+
+        NotificationCompat.Action yesAction = new NotificationCompat.Action.Builder(
+                R.drawable.ic_action_accept,
+                context.getString(R.string.confirm_info_notification),
+                yesPendingIntent).build();
+
+
+        NotificationCompat.Action noAction = new NotificationCompat.Action.Builder(
+                R.drawable.ic_action_cancel,
+                context.getString(R.string.debunk_info_notification),
+                noPendingIntent).build();
+
+
+        NotificationCompat.Action evernoteAction = new NotificationCompat.Action.Builder(
+                R.drawable.evernote,
+                context.getString(R.string.evernote_notification),
+                evernotePendingIntent).build();
+
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
                 .setContentIcon(DescConstants.IDToPicture(kindId))
                 .setContentIconGravity(Gravity.START)
                 .setBackground(bg)
+                .addAction(yesAction)
+                .addAction(noAction)
+                .addAction(evernoteAction)
                 .setHintHideIcon(false);
 
         NotificationCompat.Builder notificationBuilder =
@@ -45,14 +72,8 @@ public class WearNotification extends Intent{
                         .setSmallIcon(DescConstants.IDToPicture(kindId))
                         .setContentText(DescConstants.IDToEventName(kindId))
                         .setDefaults(Notification.DEFAULT_ALL)
-                        .addAction(
-                                R.drawable.ic_action_accept,
-                                context.getString(R.string.confirm_info_notification),
-                                yesPendingIntent)
-                        .addAction(
-                                R.drawable.ic_action_cancel,
-                                context.getString(R.string.debunk_info_notification),
-                                noPendingIntent)
+                        .addAction(yesAction)
+                        .addAction(noAction)
                         .extend(wearableExtender);
         if (is_tip)
             notificationBuilder.setContentTitle("Tip");
@@ -63,7 +84,7 @@ public class WearNotification extends Intent{
                 NotificationManagerCompat.from(context);
 
         notificationManagerCompat.notify(notificationId, notificationBuilder.build());
-        notificationId += 2;
+        notificationId += 3;
     }
 
     public static void cancel(Context context, int notificationId)

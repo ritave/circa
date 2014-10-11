@@ -5,6 +5,7 @@
     <string name="title_activity_response">ResponseActivity</string>
     <string name="confirm_info_notification">Confirm</string>
     <string name="debunk_info_notification">Debunk</string>
+    <string name="evernote_notification">Send to Evernote</string>
     <string name="daemon_start_button">Start listening</string>
     <string name="daemon_stop_button">Stop listening</string>
     <string name="action_settings">Settings</string>
