@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.widget.Toast;
 
 public class WearNotification extends Intent{
     static int notificationId = 1;
@@ -21,6 +20,7 @@ public class WearNotification extends Intent{
         Intent noIntent = new Intent(context, ResponseActivity.class);
         noIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
         noIntent.putExtra(DescConstants.TIP_ID, tipId);
+        noIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, false);
 
         PendingIntent yesPendingIntent = PendingIntent.getActivity(context, notificationId,
                 yesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -30,7 +30,7 @@ public class WearNotification extends Intent{
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.common_signin_btn_icon_dark)
-                        .setContentText("Free WiFi around here" + Integer.toString(notificationId))
+                        .setContentText(description)
                         .setDefaults(Notification.DEFAULT_ALL)
                         .addAction(
                                 R.drawable.ic_action_accept,
@@ -49,7 +49,6 @@ public class WearNotification extends Intent{
                 NotificationManagerCompat.from(context);
 
         notificationManagerCompat.notify(notificationId, notificationBuilder.build());
-        Toast.makeText(context, "Showing notification", Toast.LENGTH_LONG).show();
         notificationId += 2;
     }
 

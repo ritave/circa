@@ -3,6 +3,7 @@ package com.circa.hackzurich.circa;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.util.Log;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -14,12 +15,14 @@ import android.content.Context;
 public class ServerService extends IntentService {
     public static void confirmInfo(int tipId)
     {
-        throw new RuntimeException("TODO");
+        Log.e("FUCK", "confirmInfo not created");
+        //throw new RuntimeException("TODO");
     }
 
     public static void debunkInfo(int tipId)
     {
-        throw new RuntimeException("TODO");
+        Log.e("FUCK", "debunkInfo not created");
+        //throw new RuntimeException("TODO");
     }
 
     // TODO: Rename actions, choose action names that describe tasks that this

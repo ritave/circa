@@ -17,8 +17,18 @@ public class ResponseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_response);
 
-        int notificationId = getIntent().getIntExtra(DescConstants.NOTIFICATION_ID, 0);
+        Intent intent = getIntent();
+
+        int notificationId = intent.getIntExtra(DescConstants.NOTIFICATION_ID, 0);
+        int tipId          = intent.getIntExtra(DescConstants.TIP_ID, 0);
+        boolean isConfirm  = intent.getBooleanExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
         WearNotification.cancel(this, notificationId);
+
+        if (isConfirm)
+            ServerService.confirmInfo(tipId);
+        else
+            ServerService.debunkInfo(tipId);
+
         finish();
     }
 

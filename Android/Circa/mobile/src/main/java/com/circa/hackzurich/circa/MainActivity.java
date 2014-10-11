@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
 
     public void daemonButtonHandle(View v)
     {
-        Button b =(Button)v;
-        WearNotification.send(this, 0, "Free Wi-Fi nearby", true);
+        Button b = (Button)v;
+        WearNotification.send(this, 666, "Free Wi-Fi nearby", true);
     }
 
     @Override
