@@ -77,7 +77,6 @@ public class MainActivity extends Activity {
             stopServices();
             b.setText(getString(R.string.daemon_start_button));
         }
-        WearNotification.send(this, 0, DescConstants.INFO_PICTURE, true);
     }
 
     @Override

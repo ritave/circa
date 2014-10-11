@@ -140,8 +140,6 @@ public class InfoActivity extends Activity {
             mWearableListView.setClickListener(new WearableListView.ClickListener() {
                 @Override
                 public void onClick(WearableListView.ViewHolder viewHolder) {
-                    Toast.makeText(getApplicationContext(), "" + viewHolder.getPosition()
-                            , Toast.LENGTH_LONG).show();
                     sendInfo(viewHolder.getPosition());
                 }
 
