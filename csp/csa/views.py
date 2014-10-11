@@ -54,8 +54,8 @@ class NotificationInArea(generics.ListAPIView):
     paginate_by = None
 
     def get_queryset(self):
-        latitude = int(self.kwargs['latitude'])
-        longitude = int(self.kwargs['longitude'])
+        latitude = float(self.kwargs['latitude'])
+        longitude = float(self.kwargs['longitude'])
         queryset = Notification.getObjectsInRange(latitude,longitude)
         return queryset
 
