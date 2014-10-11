@@ -68,7 +68,7 @@ def vote_positive(request, id):
 def vote_negative(request, id):
     if request.method == "POST":
         Notification.objects.get(id=id).addNegativeVote()
-        rating = Notification.objects.get(id=id).confirm - Notification.objects.get(id=id).debunk
+        rating = Notification.objects.get(id=id).confirmed - Notification.objects.get(id=id).debunk
         if (rating < -1):
             Notification.objects.get(id=id).delete()
         return HttpResponse("ok")
