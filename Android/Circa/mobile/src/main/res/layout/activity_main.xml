@@ -20,4 +20,5 @@
         android:onClick="daemonButtonHandle"
         android:text="@string/daemon_stop_button" />
 
+
 </LinearLayout>

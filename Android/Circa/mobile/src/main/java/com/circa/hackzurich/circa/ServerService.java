@@ -76,7 +76,7 @@ public class ServerService extends IntentService {
 
                     HttpResponse response = client.execute(httppost);
                     Log.d("Circa", "Result: " + response.toString());
-                    if (response.getStatusLine().getStatusCode() != CommonStatusCodes.SUCCESS) {
+                    if (response.getStatusLine().getStatusCode() != 201) {
                        Log.d("Circa", "Error code: " + response.getStatusLine().getStatusCode());
                     }
                 } catch (Exception e) {
