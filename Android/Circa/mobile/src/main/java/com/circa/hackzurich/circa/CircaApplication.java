@@ -13,6 +13,9 @@ import com.evernote.client.android.OnClientCallback;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Ritave on 11-Oct-14.
  */
@@ -40,6 +43,9 @@ public class CircaApplication extends Application {
         if (evernoteSession.isLoggedIn() && gps.canGetLocation()) {
             Note note = new Note();
             note.setTitle(title);
+            List<String> tags = new LinkedList<String>();
+            tags.add("circa");
+            note.setTagNames(tags);
             note.setContent(EvernoteUtil.NOTE_PREFIX + text + EvernoteUtil.NOTE_SUFFIX);
             NoteAttributes attributes = new NoteAttributes();
             attributes.setLatitude(gps.getLatitude());
