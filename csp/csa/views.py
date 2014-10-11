@@ -6,6 +6,7 @@ from csa.models import *
 from django.contrib.auth.models import User, Group
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 from csa.serializers import *
 
 from rest_framework import generics
@@ -37,6 +38,10 @@ class NotificationList(generics.ListCreateAPIView):
     #     queryset = Notification.getObjectsInRange(0,0)
     #     return queryset
     queryset = Notification.objects.all()
+
+    permission_classes = (AllowAny,)
+
+
 
 
 class NotificationInArea(generics.ListAPIView):
