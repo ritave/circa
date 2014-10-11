@@ -2,6 +2,7 @@ package com.circa.hackzurich.circa;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
@@ -43,32 +44,7 @@ public class InfoActivity extends Activity {
             }
         });*/
 
-        //googleApiClient = getApi();
-        //googleApiClient.connect();
-
-        //node = getNode();
-        name= new String[]{"Free Wi-Fi", "Dangerous zone", "Other"};
-        image=new Integer[]{R.drawable.common_signin_btn_icon_dark,R.drawable.go_to_phone_00186,
-                R.drawable.go_to_phone_00186};
-
-        mWearableListView = (WearableListView) findViewById(R.id.info_list_view);
-        //setadapter to listview
-        mWearableListView.setAdapter(new InfoWearableListViewAdapter(this));
-        //on item click
-        mWearableListView.setClickListener(new WearableListView.ClickListener() {
-            @Override
-            public void onClick(WearableListView.ViewHolder viewHolder) {
-                Toast.makeText(getApplicationContext(), "" + viewHolder.getPosition()
-                        , Toast.LENGTH_LONG).show();
-                sendInfo(viewHolder.getPosition());
-                finish();
-            }
-
-            @Override
-            public void onTopEmptyRegionClick() {
-
-            }
-        });
+        new LoginToGoogleTask().execute(this);
     }
 
     private GoogleApiClient getApi()
@@ -86,11 +62,18 @@ public class InfoActivity extends Activity {
 
     private void sendInfo(int kindId)
     {
-        MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
-                googleApiClient, node.getId(), START_ACTIVITY_PATH, null).await();
-        if (!result.getStatus().isSuccess()) {
-            Log.e("FUCK", "ERROR: failed to send Message: " + result.getStatus());
-        }
+        new AsyncTask<Void, Void, Void>() {
+            protected Void doInBackground(Void... params) {
+                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(
+                        googleApiClient, node.getId(), START_ACTIVITY_PATH, null).await();
+                if (!result.getStatus().isSuccess()) {
+                    Log.e("FUCK", "ERROR: failed to send Message: " + result.getStatus());
+                }
+                finish();
+                return null;
+            }
+        }.execute();
+
 
     }
 
@@ -126,6 +109,44 @@ public class InfoActivity extends Activity {
         @Override
         public int getItemCount() {
             return name.length;
+        }
+    }
+
+    private class LoginToGoogleTask extends AsyncTask<Context, Void, Void> {
+        Context context;
+
+        protected Void doInBackground(Context... contexts) {
+            context = contexts[0];
+            googleApiClient = getApi();
+            googleApiClient.blockingConnect();
+
+
+            node = getNode();
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            mWearableListView = (WearableListView) findViewById(R.id.info_list_view);
+            //setadapter to listview
+            mWearableListView.setAdapter(new InfoWearableListViewAdapter(getBaseContext()));
+            name= new String[]{"Free Wi-Fi", "Dangerous zone", "Other"};
+            image=new Integer[]{R.drawable.common_signin_btn_icon_dark,R.drawable.go_to_phone_00186,
+                    R.drawable.go_to_phone_00186};
+
+            //on item click
+            mWearableListView.setClickListener(new WearableListView.ClickListener() {
+                @Override
+                public void onClick(WearableListView.ViewHolder viewHolder) {
+                    Toast.makeText(getApplicationContext(), "" + viewHolder.getPosition()
+                            , Toast.LENGTH_LONG).show();
+                    sendInfo(viewHolder.getPosition());
+                }
+
+                @Override
+                public void onTopEmptyRegionClick() {
+
+                }
+            });
         }
     }
 }
