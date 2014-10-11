@@ -1,11 +1,11 @@
 from django.db import models
 
 class Notification(models.Model):
-    FREEWATER = 1
-    PICTURESPOT = 2
-    DANGER = 3
-    FREEWIFI = 4
-    OTHER = 5
+    FREEWATER = 0
+    PICTURESPOT = 1
+    DANGER = 2
+    FREEWIFI = 3
+    OTHER = 4
 
     CHECKIN_CHOICES = (
         (FREEWATER, 'Free Water'),
