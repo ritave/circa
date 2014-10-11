@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.wearable.view.WatchViewStub
+<!--<android.support.wearable.view.WatchViewStub
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,5 +9,16 @@
     app:rectLayout="@layout/rect_activity_info"
     app:roundLayout="@layout/round_activity_info"
     tools:context=".InfoActivity"
-    tools:deviceIds="wear">
-</android.support.wearable.view.WatchViewStub>
+    tools:deviceIds="wear">-->
+
+
+
+<android.support.wearable.view.WearableListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/info_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:background="#F00000"
+        android:dividerHeight="0dp" />
+<!--</android.support.wearable.view.WatchViewStub>-->
