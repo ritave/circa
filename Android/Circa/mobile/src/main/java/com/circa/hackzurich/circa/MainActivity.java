@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
         PushService.radius = 10;
-        startServices();
+        //startServices();
     }
 
 
