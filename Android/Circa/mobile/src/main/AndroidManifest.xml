@@ -10,16 +10,22 @@
         <activity
             android:name=".ResponseActivity"
             android:label="@string/title_activity_response"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".ServerService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

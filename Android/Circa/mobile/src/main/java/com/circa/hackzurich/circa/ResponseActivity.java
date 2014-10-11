@@ -18,7 +18,6 @@ public class ResponseActivity extends Activity {
         setContentView(R.layout.activity_response);
 
         int notificationId = getIntent().getIntExtra(DescConstants.NOTIFICATION_ID, 0);
-        Toast.makeText(this, "ASD", Toast.LENGTH_LONG);
         WearNotification.cancel(this, notificationId);
         finish();
     }

@@ -9,7 +9,6 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
 public class WearNotification extends Intent{
-    static int summaryNotificationId = 0;
     static int notificationId = 1;
 
     public static void send(Context context, int tipId, String description, boolean is_tip)
@@ -17,6 +16,7 @@ public class WearNotification extends Intent{
         Intent yesIntent = new Intent(context, ResponseActivity.class);
         yesIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
         yesIntent.putExtra(DescConstants.TIP_ID, tipId);
+        yesIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
 
         Intent noIntent = new Intent(context, ResponseActivity.class);
         noIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
@@ -50,7 +50,7 @@ public class WearNotification extends Intent{
 
         notificationManagerCompat.notify(notificationId, notificationBuilder.build());
         Toast.makeText(context, "Showing notification", Toast.LENGTH_LONG).show();
-        notificationId+=2;
+        notificationId += 2;
     }
 
     public static void cancel(Context context, int notificationId)
