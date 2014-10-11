@@ -25,9 +25,9 @@ public class ResponseActivity extends Activity {
         WearNotification.cancel(this, notificationId);
 
         if (isConfirm)
-            ServerService.confirmInfo(tipId);
+            ServerService.confirmInfo(getApplicationContext(), tipId);
         else
-            ServerService.debunkInfo(tipId);
+            ServerService.debunkInfo(getApplicationContext(), tipId);
 
         finish();
     }

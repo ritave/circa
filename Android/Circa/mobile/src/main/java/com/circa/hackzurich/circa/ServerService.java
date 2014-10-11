@@ -4,6 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.lang.Integer;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -13,56 +16,22 @@ import android.util.Log;
  * helper methods.
  */
 public class ServerService extends IntentService {
-    public static void confirmInfo(int tipId)
+    public static void confirmInfo(Context context, int tipId)
     {
-        Log.e("FUCK", "confirmInfo not created");
-        //throw new RuntimeException("TODO");
-    }
-
-    public static void debunkInfo(int tipId)
-    {
-        Log.e("FUCK", "debunkInfo not created");
-        //throw new RuntimeException("TODO");
-    }
-
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FOO = "com.circa.hackzurich.circa.action.FOO";
-    private static final String ACTION_BAZ = "com.circa.hackzurich.circa.action.BAZ";
-
-    // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "com.circa.hackzurich.circa.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.circa.hackzurich.circa.extra.PARAM2";
-
-    /**
-     * Starts this service to perform action Foo with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionFoo(Context context, String param1, String param2) {
         Intent intent = new Intent(context, ServerService.class);
-        intent.setAction(ACTION_FOO);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        intent.setAction(DescConstants.ACTION_CONFIRM);
+        intent.putExtra(DescConstants.TIP_ID, tipId);
         context.startService(intent);
     }
 
-    /**
-     * Starts this service to perform action Baz with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionBaz(Context context, String param1, String param2) {
+    public static void debunkInfo(Context context, int tipId)
+    {
         Intent intent = new Intent(context, ServerService.class);
-        intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        intent.setAction(DescConstants.ACTION_DEBUNK);
+        intent.putExtra(DescConstants.TIP_ID, tipId);
         context.startService(intent);
     }
+
 
     public ServerService() {
         super("ServerService");
@@ -72,33 +41,29 @@ public class ServerService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
+            if (DescConstants.ACTION_CONFIRM.equals(action)) {
+                final Integer tipId = intent.getIntExtra(DescConstants.TIP_ID, 0);
+                handleActionConfirm(tipId);
+            } else if (DescConstants.ACTION_DEBUNK.equals(action)) {
+                final Integer tipId = intent.getIntExtra(DescConstants.TIP_ID, 0);
+                handleActionDebunk(tipId);
             }
         }
     }
 
     /**
-     * Handle action Foo in the provided background thread with the provided
+     * Handle action Confirm in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionFoo(String param1, String param2) {
-        // TODO: Handle action Foo
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void handleActionConfirm(Integer tipId) {
+        Log.d("Circa", "confirm " + tipId);
     }
 
     /**
-     * Handle action Baz in the provided background thread with the provided
+     * Handle action Debunk in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionBaz(String param1, String param2) {
-        // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void handleActionDebunk(Integer tipId) {
+        Log.d("Circa", "debunk " + tipId);
     }
 }
