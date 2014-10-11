@@ -18,6 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -26,6 +27,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    permission_classes = (AllowAny,)
 
 
 class NotificationList(generics.ListCreateAPIView):
@@ -46,6 +48,7 @@ class NotificationList(generics.ListCreateAPIView):
 
 class NotificationInArea(generics.ListAPIView):
     serializer_class = NotificationSerializer
+    permission_classes = (AllowAny,)
 
     def get_queryset(self):
         latitude = int(self.kwargs['latitude'])
