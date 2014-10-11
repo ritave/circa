@@ -4,12 +4,15 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.Gravity;
 
 public class WearNotification extends Intent{
     static int notificationId = 1;
+    static Bitmap bg;
 
     public static void send(Context context, int tipId, int kindId, boolean is_tip)
     {
@@ -28,9 +31,13 @@ public class WearNotification extends Intent{
         PendingIntent noPendingIntent = PendingIntent.getActivity(context, notificationId + 1,
                 noIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        if (bg == null)
+            loadBG(context);
+
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
                 .setContentIcon(DescConstants.IDToPicture(kindId))
                 .setContentIconGravity(Gravity.START)
+                .setBackground(bg)
                 .setHintHideIcon(false);
 
         NotificationCompat.Builder notificationBuilder =
@@ -63,5 +70,10 @@ public class WearNotification extends Intent{
     {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.cancel(notificationId);
+    }
+
+    private static void loadBG(Context context)
+    {
+        bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wearBG);
     }
 }
