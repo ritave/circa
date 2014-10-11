@@ -2,6 +2,7 @@ package com.circa.hackzurich.circa;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
+import android.widget.Toast;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>

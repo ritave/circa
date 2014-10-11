@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Circa</string>
+    <string name="title_activity_response">ResponseActivity</string>
+    <string name="confirm_info_notification">Confirm</string>
+    <string name="debunk_info_notification">Debunk</string>
+    <string name="daemon_start_button">Start listening</string>
+    <string name="daemon_stop_button">Stop listening</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="NOTIFICATION_ID">notification_id</string>
+    <string name="NOTIFICATION_GROUP">notification_group</string>
+
 </resources>
