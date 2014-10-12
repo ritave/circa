@@ -76,6 +76,9 @@ public class ServerService extends IntentService {
                     Log.d("Circa", "Result: " + gsonResult.toString() + ", id = " + res.getId());
                     LocalDB db = new LocalDB(context);
                     db.addUsed(res.getId());
+                    Place place = new Place(res.getId(), Place.getDateTime(), latitude, longitude, "", kindId, 0, 1);
+                    db.addPlace(place);
+                    PushService.pin.Updated();
                     db.close();
 
                 } catch (Exception e) {
