@@ -120,6 +120,7 @@ public class MainActivity extends Activity implements UpdatePins {
 
     @Override
     public void Updated() {
+        mMap.clear();
         for (Place place : PushService.places) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(place.getLatitude(), place.getLongitude()))
