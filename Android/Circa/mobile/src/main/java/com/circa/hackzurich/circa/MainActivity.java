@@ -40,9 +40,7 @@ public class MainActivity extends Activity implements UpdatePins {
         PushService.radius = 10;
         PushService.pin = this;
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(10, 10))
-                .title("Hello world"));
+
         centerMapOnMyLocation();
     }
 
@@ -127,9 +125,5 @@ public class MainActivity extends Activity implements UpdatePins {
                     .position(new LatLng(place.getLatitude(), place.getLongitude()))
                     .title(place.getId().toString()));
         }
-
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(41.8169925,-71.421168))
-                .title("I love Brown"));
     }
 }
