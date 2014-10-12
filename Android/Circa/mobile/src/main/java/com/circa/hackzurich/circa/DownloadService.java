@@ -66,15 +66,15 @@ public class DownloadService extends Service {
                         PushService.places.clear();
                         PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
                         //Log.d("Circa", "Result: " + gsonResult);
+
+                        if (pin != null)
+                            pin.Updated();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
             thread.start();
-
-            if (pin != null)
-                pin.Updated();
 
         } else {
             Log.e("Circa", "GPS or Network is not enabled");

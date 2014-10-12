@@ -127,5 +127,9 @@ public class MainActivity extends Activity implements UpdatePins {
                     .position(new LatLng(place.getLatitude(), place.getLongitude()))
                     .title(place.getId().toString()));
         }
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(41.8169925,-71.421168))
+                .title("I love Brown"));
     }
 }
