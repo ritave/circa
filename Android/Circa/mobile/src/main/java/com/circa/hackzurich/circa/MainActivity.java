@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
+import com.google.android.gms.location.LocationServices.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,6 +41,21 @@ public class MainActivity extends Activity {
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(10, 10))
                 .title("Hello world"));
+        centerMapOnMyLocation();
+    }
+
+    private void centerMapOnMyLocation() {
+
+        mMap.setMyLocationEnabled(true);
+
+        Location location = mMap.getMyLocation();
+        LatLng myLocation = new LatLng(2.0, 2.0);
+
+        if (location != null) {
+            myLocation = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
     }
 
 

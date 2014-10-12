@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'DebugCircaKey'
             keyPassword 'circa123'
-            storeFile file('C:/Users/Ritave/Documents/Coding/Projekty/circa/android.jks')
+            storeFile file('/Users/samuelbrebner/Documents/circa-hackzurich/android.jks')
             storePassword 'circa123'
         }
     }
