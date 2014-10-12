@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     private AlarmManager downAlarm, pushAlarm;
     private PendingIntent downPintent, pushPintent;
     private GoogleMap mMap;
+    private static Context applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,16 @@ public class MainActivity extends Activity {
     private void centerMapOnMyLocation() {
 
         mMap.setMyLocationEnabled(true);
+        applicationContext = getApplicationContext();
 
-        Location location = mMap.getMyLocation();
-        LatLng myLocation = new LatLng(2.0, 2.0);
+        GPSTracker gps = new GPSTracker(applicationContext);
+        LatLng myLocation = new LatLng(41.8169925,-71.421168);
 
-        if (location != null) {
-            myLocation = new LatLng(location.getLatitude(),
-                    location.getLongitude());
+        if (gps.canGetLocation()) {
+            myLocation = new LatLng(gps.getLatitude(),
+                    gps.getLongitude());
         }
+
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
     }
 
