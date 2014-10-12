@@ -73,13 +73,14 @@ public class MainActivity extends Activity implements UpdatePins {
 
     private void startServices() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 2);
 
         Intent downloadIntent = new Intent(this, DownloadService.class);
         downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
         downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         downAlarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 100*interval, downPintent);
+
+        cal.add(Calendar.SECOND, 2);
 
         Intent pushIntent = new Intent(this, PushService.class);
         pushPintent = PendingIntent.getService(this, 1, pushIntent, 0);
