@@ -4,8 +4,10 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.Gravity;
@@ -26,18 +28,10 @@ public class WearNotification extends Intent{
         noIntent.putExtra(DescConstants.TIP_ID, tipId);
         noIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, false);
 
-        Intent evernoteIntent = new Intent(context, ResponseActivity.class);
-        evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
-        evernoteIntent.putExtra(DescConstants.KIND_ID, kindId);
-        evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
-        evernoteIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
-
         PendingIntent yesPendingIntent = PendingIntent.getActivity(context, notificationId,
                 yesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent noPendingIntent = PendingIntent.getActivity(context, notificationId + 1,
                 noIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent evernotePendingIntent = PendingIntent.getActivity(context, notificationId + 1,
-                evernoteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (bg == null)
             loadBG(context);
@@ -54,19 +48,12 @@ public class WearNotification extends Intent{
                 noPendingIntent).build();
 
 
-        NotificationCompat.Action evernoteAction = new NotificationCompat.Action.Builder(
-                R.drawable.evernote,
-                context.getString(R.string.evernote_notification),
-                evernotePendingIntent).build();
-
-
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
                 .setContentIcon(DescConstants.IDToPicture(kindId))
                 .setContentIconGravity(Gravity.START)
                 .setBackground(bg)
                 .addAction(yesAction)
                 .addAction(noAction)
-                .addAction(evernoteAction)
                 .setHintHideIcon(false);
 
         NotificationCompat.Builder notificationBuilder =
@@ -75,8 +62,32 @@ public class WearNotification extends Intent{
                         .setContentText(DescConstants.IDToEventName(kindId))
                         .setDefaults(Notification.DEFAULT_ALL)
                         .addAction(yesAction)
-                        .addAction(noAction)
-                        .extend(wearableExtender);
+                        .addAction(noAction);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean evernoteIntegration = sharedPreferences.getBoolean(DescConstants.EVERNOTE_PREFERENCES, false);
+        if (evernoteIntegration && CircaApplication.evernoteSession.isLoggedIn())
+        {
+            Intent evernoteIntent = new Intent(context, ResponseActivity.class);
+            evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
+            evernoteIntent.putExtra(DescConstants.KIND_ID, kindId);
+            evernoteIntent.putExtra(DescConstants.NOTIFICATION_ID, notificationId);
+            evernoteIntent.putExtra(DescConstants.NOTIFICATION_IS_CONFIRM, true);
+
+            PendingIntent evernotePendingIntent = PendingIntent.getActivity(context, notificationId + 1,
+                    evernoteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Action evernoteAction = new NotificationCompat.Action.Builder(
+                    R.drawable.evernote,
+                    context.getString(R.string.evernote_notification),
+                    evernotePendingIntent).build();
+
+            wearableExtender.addAction(evernoteAction);
+
+        }
+
+        notificationBuilder.extend(wearableExtender);
+
         if (is_tip)
             notificationBuilder.setContentTitle("Tip");
         else

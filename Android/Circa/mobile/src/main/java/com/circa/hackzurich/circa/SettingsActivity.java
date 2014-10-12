@@ -51,7 +51,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(DescConstants.EVERNOTE_PREFERENCES)) {
-            Toast.makeText(this, "ASd", Toast.LENGTH_LONG).show();
             boolean isOn = sharedPreferences.getBoolean(key, false);
             if (isOn)
                 if (!CircaApplication.evernoteSession.isLoggedIn()) {
