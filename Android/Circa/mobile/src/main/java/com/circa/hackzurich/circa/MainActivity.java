@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements UpdatePins {
 
     // 1 minute
     //private final Integer interval = 1 * 60 * 1000;
@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
                     gps.getLongitude());
         }
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 5));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
     }
 
 
@@ -117,5 +117,14 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void Updated() {
+        for (Place place : PushService.places) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(place.getLatitude(), place.getLongitude()))
+                    .title(place.getId().toString()));
+        }
     }
 }
