@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 
 
@@ -28,9 +29,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PushService.places = new ArrayList<Place>();
-        PushService.usedPlaces = new HashSet<Integer>();
-        PushService.radius = 10;
+        // erasing db containing visited places
+        LocalDB db = new LocalDB(getApplicationContext());
+        db.removeAllUsed();
+        db.close();
     }
 
 
@@ -42,18 +44,20 @@ public class MainActivity extends Activity {
     }
 
     private void startServices() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 2);
+
         Intent downloadIntent = new Intent(this, DownloadService.class);
         downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
         downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        downAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                5 * 1000, 6*interval, downPintent);
-                //5 * 1000, AlarmManager.INTERVAL_HOUR, downPintent);
+        downAlarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                2*interval, downPintent);
 
         Intent pushIntent = new Intent(this, PushService.class);
-        pushPintent = PendingIntent.getService(this, 0, pushIntent, 0);
+        pushPintent = PendingIntent.getService(this, 1, pushIntent, 0);
         pushAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        pushAlarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                30 * 1000, interval, pushPintent);
+        pushAlarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                interval, pushPintent);
     }
 
     private void stopServices() {
