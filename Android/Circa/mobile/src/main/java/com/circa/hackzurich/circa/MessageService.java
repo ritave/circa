@@ -16,8 +16,7 @@ public class MessageService extends WearableListenerService {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             boolean sendToEvernote = sharedPreferences.getBoolean(DescConstants.EVERNOTE_PREFERENCES, false);
 
-            if (sendToEvernote)
-            {
+            if (sendToEvernote) {
                 CircaApplication.sentEvernoteNote(DescConstants.IDToEventName(kindId), "");
             }
             GPSTracker gps = new GPSTracker(MessageService.this);

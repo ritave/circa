@@ -74,22 +74,19 @@ public class LocalDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void removeAllPlaces()
-    {
+    public void removeAllPlaces() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("places", null, null);
         db.close();
     }
 
-    public void removeAllUsed()
-    {
+    public void removeAllUsed() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("used", null, null);
         db.close();
     }
 
     public Place[] returnAllPlaces() {
-
         SQLiteDatabase db = getReadableDatabase();
         String col[] = {"online_id", "created_at", "latitude", "longitude", "text_note", "kind", "debunk", "confirmed"};
         Cursor cur = db.query("places", col, null, null, null, null, "confirmed DESC");
@@ -116,5 +113,4 @@ public class LocalDB extends SQLiteOpenHelper {
         db.close();
         return usedPlaces;
     }
-
 }

@@ -23,9 +23,6 @@ import java.util.HashSet;
 
 
 public class MainActivity extends Activity implements UpdatePins {
-
-    // 1 minute
-    //private final Integer interval = 1 * 60 * 1000;
     private final Integer interval = 10 * 1000;
     private AlarmManager downAlarm, pushAlarm;
     private PendingIntent downPintent, pushPintent;
@@ -79,7 +76,7 @@ public class MainActivity extends Activity implements UpdatePins {
         downPintent = PendingIntent.getService(this, 0, downloadIntent, 0);
         downAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         downAlarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                2*interval, downPintent);
+                100*interval, downPintent);
 
         Intent pushIntent = new Intent(this, PushService.class);
         pushPintent = PendingIntent.getService(this, 1, pushIntent, 0);
