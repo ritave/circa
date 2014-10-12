@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,7 @@ public class MainActivity extends Activity implements UpdatePins {
         db.close();
 
         PushService.pin = this;
+        MessageService.pin = this;
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         centerMapOnMyLocation();
     }
