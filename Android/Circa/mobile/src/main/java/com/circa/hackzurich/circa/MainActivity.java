@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         mMap.setMyLocationEnabled(true);
 
-        mCurrentLocation = mMap.getMyLocation();
+        mCurrentLocation = mLocationClient.getLastLocation();
         LatLng myLocation = new LatLng(35.0, -100.0);
 
         if (mCurrentLocation != null) {
