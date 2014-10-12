@@ -27,8 +27,6 @@ public class DownloadService extends Service {
     public DownloadService() {
     }
 
-    public static UpdatePins pin;
-
     private GPSTracker gps;
 
     @Override
@@ -66,9 +64,6 @@ public class DownloadService extends Service {
                         PushService.places.clear();
                         PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
                         //Log.d("Circa", "Result: " + gsonResult);
-
-                        if (pin != null)
-                            pin.Updated();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
