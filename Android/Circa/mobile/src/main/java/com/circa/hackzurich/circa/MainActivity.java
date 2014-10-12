@@ -135,7 +135,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     /* Called by Location Services when the request to connect the client finishes successfully. At this point, you can request the current location or start periodic updates */
     @Override
     public void onConnected(Bundle dataBundle) {
-
+        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
     }
 
     public static class ErrorDialogFragment extends DialogFragment {
