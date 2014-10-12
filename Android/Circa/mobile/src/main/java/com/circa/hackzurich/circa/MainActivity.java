@@ -34,6 +34,8 @@ public class MainActivity extends Activity implements UpdatePins {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        stopServices();
+
         // erasing db containing visited places
         LocalDB db = new LocalDB(getApplicationContext());
         db.removeAllUsed();
