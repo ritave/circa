@@ -125,7 +125,7 @@ public class MainActivity extends Activity implements UpdatePins {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(place.getLatitude(), place.getLongitude()))
                     .title(DescConstants.IDToEventName(place.getKind()))
-                    .icon(BitmapDescriptorFactory.fromResource(DescConstants.IDToPicture(place.getKind()))));
+                    .icon(BitmapDescriptorFactory.defaultMarker(DescConstants.IDToColor(place.getKind()))));
         }
     }
 }
