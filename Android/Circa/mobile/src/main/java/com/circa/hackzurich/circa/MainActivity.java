@@ -126,10 +126,14 @@ public class MainActivity extends Activity implements UpdatePins {
         LocalDB db = new LocalDB(getApplicationContext());
         Place[] places = db.returnAllPlaces();
         for (Place place : places) {
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(place.getLatitude(), place.getLongitude()))
-                    .title(DescConstants.IDToEventName(place.getKind()))
-                    .icon(BitmapDescriptorFactory.defaultMarker(DescConstants.IDToColor(place.getKind()))));
+            addPoint(place.getLatitude(),place.getLongitude(), place.getKind());
         }
+    }
+
+    public void addPoint(double lat, double lon, int kind) {
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat, lon))
+                .title(DescConstants.IDToEventName(kind))
+                .icon(BitmapDescriptorFactory.defaultMarker(DescConstants.IDToColor(kind))));
     }
 }
