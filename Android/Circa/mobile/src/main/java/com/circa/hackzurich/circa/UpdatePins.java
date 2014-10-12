@@ -5,5 +5,4 @@ package com.circa.hackzurich.circa;
  */
 public interface UpdatePins {
     void Updated();
-    void addPoint(double lat, double lon, int kind);
 }

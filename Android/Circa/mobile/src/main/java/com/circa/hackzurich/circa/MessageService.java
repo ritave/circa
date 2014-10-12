@@ -8,7 +8,6 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 public class MessageService extends WearableListenerService {
-    public static UpdatePins pin;
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -26,7 +25,6 @@ public class MessageService extends WearableListenerService {
             // check if GPS enabled
             if (gps.canGetLocation()) {
                 ServerService.newAlert(kindId, gps.getLatitude(), gps.getLongitude(), getApplicationContext());
-                pin.addPoint(gps.getLatitude(), gps.getLongitude(), kindId);
             }
         } else
             super.onMessageReceived(messageEvent);
