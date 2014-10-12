@@ -3,6 +3,7 @@ package com.circa.hackzurich.circa;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,14 +12,22 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class PushService extends Service {
-    public PushService() {
+
+    Handler handler;
+
+    @Override
+    public void onCreate() {
+        // Handler will get associated with the current thread,
+        // which is the main thread.
+        handler = new Handler();
+        super.onCreate();
     }
 
-    public static ArrayList<Place> places;
-    public static HashSet<Integer> usedPlaces;
-    public static Integer radius;
     public static UpdatePins pin;
-    private GPSTracker gps;
+
+    private void runOnUiThread(Runnable runnable) {
+        handler.post(runnable);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -28,7 +37,7 @@ public class PushService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Log.d("Circa", "push_service_on");
-        gps = new GPSTracker(PushService.this);
+        GPSTracker gps = new GPSTracker(PushService.this);
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
@@ -37,9 +46,14 @@ public class PushService extends Service {
             //Log.d("Circa", "lat: " + latitude);
             //Log.d("Circa", "long: " + longitude);
 
+            LocalDB db = new LocalDB(getApplicationContext());
+            Place[] places = db.returnAllPlaces();
+            HashSet<Integer> usedPlaces = db.returnAllUsed();
+
             // try match best place
             ArrayList<Place> bestPlaces = new ArrayList<Place>();
 
+            int radius = 10;
             for (Place place : places) {
                 float[] results = new float[1];
                 Location.distanceBetween(latitude, longitude, place.getLatitude(), place.getLongitude(), results);
@@ -56,9 +70,10 @@ public class PushService extends Service {
             // send notification (if exist appropriate place)
             for (Place place : bestPlaces) {
                 // mark used places
-                usedPlaces.add(place.getId());
+                db.addUsed(place.getId());
                 WearNotification.send(this, place.getId(), place.getKind(), true);
             }
+            db.close();
 
         } else {
             Log.e("Circa", "GPS or Network is not enabled");

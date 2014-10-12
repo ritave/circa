@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Debug;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -27,7 +28,19 @@ public class DownloadService extends Service {
     public DownloadService() {
     }
 
-    private GPSTracker gps;
+    Handler handler;
+
+    @Override
+    public void onCreate() {
+        // Handler will get associated with the current thread,
+        // which is the main thread.
+        handler = new Handler();
+        super.onCreate();
+    }
+
+    private void runOnUiThread(Runnable runnable) {
+        handler.post(runnable);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,8 +49,8 @@ public class DownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //Log.d("Circa", "download_service_on");
-        gps = new GPSTracker(DownloadService.this);
+        Log.d("Circa", "download_service_on");
+        GPSTracker gps = new GPSTracker(DownloadService.this);
 
 
         // check if GPS enabled
@@ -60,10 +73,17 @@ public class DownloadService extends Service {
                         HttpGet httpget = new HttpGet(url);
                         ResponseHandler<String> responseHandler = new BasicResponseHandler();
                         gsonResult = client.execute(httpget, responseHandler);
+//                        Log.d("Circa", "Result: " + gsonResult);
                         Gson gson = new Gson();
-                        PushService.places.clear();
-                        PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
-                        //Log.d("Circa", "Result: " + gsonResult);
+
+                        LocalDB db = new LocalDB(getApplicationContext());
+                        db.removeAllPlaces();
+                        ArrayList<Place> places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
+                        for (Place place : places) {
+                            db.addPlace(place);
+                        }
+                        db.close();
+                        //Log.d("Circa", "Result123: " + gsonResult);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -74,7 +94,6 @@ public class DownloadService extends Service {
         } else {
             Log.e("Circa", "GPS or Network is not enabled");
         }
-
         return Service.START_NOT_STICKY;
     }
 }

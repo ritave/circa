@@ -57,7 +57,7 @@ public class ServerService extends IntentService {
         thread.start();
     }
 
-    public static void newAlert(final int kindId, final double latitude, final double longitude) {
+    public static void newAlert(final int kindId, final double latitude, final double longitude, final Context context) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -75,8 +75,12 @@ public class ServerService extends IntentService {
                     gsonResult = client.execute(httppost, responseHandler);
                     Gson gson = new Gson();
                     Place res = gson.fromJson(gsonResult, Place.class);
-                    //Log.d("Circa", "Result: " + gsonResult.toString() + ", id = " + res.getId());
-                    PushService.usedPlaces.add(res.getId());
+
+                    Log.d("Circa", "Result: " + gsonResult.toString() + ", id = " + res.getId());
+                    LocalDB db = new LocalDB(context);
+                    db.addUsed(res.getId());
+                    db.close();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -24,7 +24,7 @@ public class MessageService extends WearableListenerService {
 
             // check if GPS enabled
             if (gps.canGetLocation()) {
-                ServerService.newAlert(kindId, gps.getLatitude(), gps.getLongitude());
+                ServerService.newAlert(kindId, gps.getLatitude(), gps.getLongitude(), getApplicationContext());
             }
         } else
             super.onMessageReceived(messageEvent);
