@@ -38,6 +38,7 @@ public class MainActivity extends Activity implements UpdatePins {
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
         PushService.radius = 10;
+        DownloadService.pin = this;
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(10, 10))

@@ -27,6 +27,8 @@ public class DownloadService extends Service {
     public DownloadService() {
     }
 
+    public static UpdatePins pin;
+
     private GPSTracker gps;
 
     @Override
@@ -38,6 +40,7 @@ public class DownloadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Log.d("Circa", "download_service_on");
         gps = new GPSTracker(DownloadService.this);
+
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
@@ -63,6 +66,9 @@ public class DownloadService extends Service {
                         PushService.places.clear();
                         PushService.places = new ArrayList<Place>(Arrays.asList(gson.fromJson(gsonResult, Place[].class)));
                         //Log.d("Circa", "Result: " + gsonResult);
+
+                        if (pin != null)
+                            pin.Updated();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
