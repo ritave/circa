@@ -17,6 +17,7 @@ public class PushService extends Service {
     public static ArrayList<Place> places;
     public static HashSet<Integer> usedPlaces;
     public static Integer radius;
+    public static UpdatePins pin;
     private GPSTracker gps;
 
     @Override
@@ -47,6 +48,9 @@ public class PushService extends Service {
                     bestPlaces.add(place);
                 }
             }
+
+            if (pin != null)
+                pin.Updated();
 
             //Log.d("Circa", "Found " + bestPlaces.size() + " best places");
             // send notification (if exist appropriate place)

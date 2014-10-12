@@ -39,6 +39,7 @@ public class DownloadService extends Service {
         //Log.d("Circa", "download_service_on");
         gps = new GPSTracker(DownloadService.this);
 
+
         // check if GPS enabled
         if (gps.canGetLocation()) {
             final double latitude = gps.getLatitude();

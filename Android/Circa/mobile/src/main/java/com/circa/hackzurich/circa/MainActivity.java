@@ -5,24 +5,31 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
+import com.google.android.gms.location.LocationServices.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements UpdatePins {
 
     // 1 minute
     //private final Integer interval = 1 * 60 * 1000;
     private final Integer interval = 10 * 1000;
     private AlarmManager downAlarm, pushAlarm;
     private PendingIntent downPintent, pushPintent;
+    private GoogleMap mMap;
+    private static Context applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,26 @@ public class MainActivity extends Activity {
         PushService.places = new ArrayList<Place>();
         PushService.usedPlaces = new HashSet<Integer>();
         PushService.radius = 10;
+        PushService.pin = this;
+        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+        centerMapOnMyLocation();
+    }
+
+    private void centerMapOnMyLocation() {
+
+        mMap.setMyLocationEnabled(true);
+        applicationContext = getApplicationContext();
+
+        GPSTracker gps = new GPSTracker(applicationContext);
+        LatLng myLocation = new LatLng(41.8169925,-71.421168);
+
+        if (gps.canGetLocation()) {
+            myLocation = new LatLng(gps.getLatitude(),
+                    gps.getLongitude());
+        }
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
     }
 
 
@@ -89,5 +116,16 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void Updated() {
+        mMap.clear();
+        for (Place place : PushService.places) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(place.getLatitude(), place.getLongitude()))
+                    .title(DescConstants.IDToEventName(place.getKind()))
+                    .icon(BitmapDescriptorFactory.defaultMarker(DescConstants.IDToColor(place.getKind()))));
+        }
     }
 }

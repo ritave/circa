@@ -1,6 +1,7 @@
 package com.circa.hackzurich.circa;
 
 import com.evernote.client.android.EvernoteSession;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 public class DescConstants {
     static final String NOTIFICATION_GROUP= "info_group";
@@ -44,16 +45,34 @@ public class DescConstants {
         return "Unknown happening";
     }
 
+    public static float IDToColor(int eventId)
+    {
+        switch (eventId)
+        {
+            case INFO_WATER:
+                return BitmapDescriptorFactory.HUE_BLUE;
+            case INFO_PICTURE:
+                return BitmapDescriptorFactory.HUE_ROSE;
+            case INFO_DANGERZONE:
+                return BitmapDescriptorFactory.HUE_RED;
+            case INFO_WIFI:
+                return BitmapDescriptorFactory.HUE_CYAN;
+            case INFO_OTHER:
+                return BitmapDescriptorFactory.HUE_GREEN;
+        }
+        throw new RuntimeException("IDToPicture crapped out");
+    }
+
     public static int IDToPicture(int eventId)
     {
         switch (eventId)
         {
             case INFO_WATER:
-                return R.drawable.ic_action_network_wifi;
+                return R.drawable.ic_action_good;
             case INFO_PICTURE:
                 return R.drawable.ic_action_camera;
             case INFO_DANGERZONE:
-                return R.drawable.ic_action_good;
+                return R.drawable.ic_action_bad;
             case INFO_WIFI:
                 return R.drawable.ic_action_network_wifi;
             case INFO_OTHER:
