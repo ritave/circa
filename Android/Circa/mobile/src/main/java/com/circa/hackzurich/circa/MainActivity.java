@@ -123,7 +123,7 @@ public class MainActivity extends Activity implements UpdatePins {
         for (Place place : PushService.places) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(place.getLatitude(), place.getLongitude()))
-                    .title(place.getId().toString()));
+                    .title(DescConstants.IDToEventName(place.getId())));
         }
     }
 }
