@@ -130,6 +130,7 @@ public class MainActivity extends Activity implements UpdatePins {
         }
     }
 
+    @Override
     public void addPoint(double lat, double lon, int kind) {
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat, lon))

@@ -77,7 +77,7 @@ public class ServerService extends IntentService {
                     LocalDB db = new LocalDB(context);
                     db.addUsed(res.getId());
                     db.close();
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
